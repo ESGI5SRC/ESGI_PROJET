@@ -2,7 +2,7 @@
 // Configuration de la base de données
 $servername = getenv('DB_SERVER');
 $username = getenv('DB_USERNAME');
-$password = getenv('DB_PASSWORD');
+$password = getenv('DB_PASSWORD'); re
 $dbname = getenv('DB_NAME');
 
 // Connexion à la base de données
