@@ -21,8 +21,14 @@ jobs:
         with:
           php-version: 7.4
 
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
       - name: Install dependencies
         run: composer install
+
+      - name: Install PHPStan and Deprecation Rules
+        run: composer require --dev phpstan/phpstan phpstan/phpstan-deprecation-rules
 
       - name: Syntax check for index.php
         run: php -l index.php
