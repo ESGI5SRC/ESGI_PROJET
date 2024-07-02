@@ -1,4 +1,4 @@
-name: Syntax Check
+name: Syntax and Deprecation Check
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - index.php
 
 jobs:
-  syntax-check:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,5 +21,11 @@ jobs:
         with:
           php-version: 7.4
 
+      - name: Install dependencies
+        run: composer install
+
       - name: Syntax check for index.php
         run: php -l index.php
+
+      - name: Run PHPStan for deprecation checks
+        run: vendor/bin/phpstan analyse index.php
