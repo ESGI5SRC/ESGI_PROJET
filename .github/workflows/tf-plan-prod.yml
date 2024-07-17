@@ -23,12 +23,6 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Workspace
-        run: terraform workspace new prod
-
-      - name: Terraform Select Dev
-        run: terraform workspace select prod
-
       - name: Terraform Plan
         run: terraform plan
 
