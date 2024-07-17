@@ -12,7 +12,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "webapp-esgi-proj6"
+  name     = "webapp-esgi-proj7"
   location = "East US 2"
 }
 
@@ -25,7 +25,7 @@ resource "azurerm_service_plan" "main" {
 }
 
 resource "azurerm_linux_web_app" "app_service" {
-  name                = "webappEsgi-v7"
+  name                = "webappEsgi-v8"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id = azurerm_service_plan.main.id
@@ -38,7 +38,7 @@ resource "azurerm_linux_web_app" "app_service" {
 }
 
 resource "azurerm_storage_account" "storage" {
-  name                     = "esgiwebapp6" 
+  name                     = "esgiwebapp7" 
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
@@ -63,7 +63,7 @@ resource "azurerm_storage_blob" "example" {
 }
 
 resource "azurerm_mssql_server" "sqlserver" {
-  name                         = "webapp-sqlsrvv"
+  name                         = "webapp-sqlsrv"
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
   version                      = "12.0"
