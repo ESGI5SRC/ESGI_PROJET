@@ -2,8 +2,6 @@ name: Terraform
 
 on:
   push:
-    branches:
-      - dev
 
 jobs:
   terraform:
@@ -22,12 +20,6 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-
-      - name: Terraform Workspace
-        run: terraform workspace new dev
-
-      - name: Terraform Select Dev
-        run: terraform workspace select dev
 
       - name: Terraform Plan
         run: terraform plan
