@@ -1,7 +1,7 @@
 name: 'Terraform Check'
 
 on:
-  push:
+  workflow_dispatch:
 
 permissions:
   security-events: write
