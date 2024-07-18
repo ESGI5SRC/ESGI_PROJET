@@ -84,49 +84,6 @@ resource "azurerm_mssql_database" "db" {
   }
 }
 
-resource "azurerm_virtual_network" "vnet" {
-  name                = "webapp-vnet"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  address_space       = ["10.0.0.0/16"]
-}
-
-resource "azurerm_subnet" "webapp_subnet" {
-  name                 = "webapp-subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
-}
-
-resource "azurerm_subnet" "integration_subnet" {
-  name                 = "integration-subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.2.0/24"]
-  delegation {
-    name = "delegation"
-    service_delegation {
-      name = "Microsoft.Web/serverFarms"
-      actions = [
-        "Microsoft.Network/virtualNetworks/subnets/join/action",
-      ]
-    }
-  }
-}
-
-resource "azurerm_private_endpoint" "pendpoint" {
-  name                = "pendpoint-db-vnet"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  subnet_id           = azurerm_subnet.subnet-db.id
-
-  private_service_connection {
-    name                           = "pserviceconnection"
-    private_connection_resource_id = azurerm_mssql_server.sqlserver.id
-    subresource_names              = ["sqlServer"]
-    is_manual_connection           = false 
-  }
-
   private_dns_zone_group {
     name                 = "privatelink.database.windows.net"
     private_dns_zone_ids = [azurerm_private_dns_zone.pdns_zone.id]
@@ -247,13 +204,6 @@ resource "azurerm_network_security_group" "nsg-db" {
 resource "azurerm_private_dns_zone" "pdns_zone" {
   name                = "privatelink.database.windows.net"
   resource_group_name = azurerm_resource_group.rg.name
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_vnet_associate" {
-  name                  = "private-dns-zone-vnet-associate"
-  resource_group_name   = azurerm_resource_group.rg.name
-  private_dns_zone_name = azurerm_private_dns_zone.pdns_zone.name
-  virtual_network_id    = azurerm_virtual_network.vnet.id
 }
 
 resource "azurerm_monitor_autoscale_setting" "scaling" {
